@@ -1,66 +1,70 @@
-## Foundry
+# Allora Labs Consumer Contract
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+This directory contains the Allora Labs consumer contract in Solidity that can be deployed to any EVM chain. It also consists of some example scripts to verify the functions of the smart contract.
 
-Foundry consists of:
+## Cloning repository
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+Run command
 
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```sh
+git clone https://github.com/sukanyaparashar/allora-consumer.git
+cd allora-consumer
 ```
 
-### Test
+## Install the required dependencies for the node package and for forge commands
 
-```shell
-$ forge test
+```sh
+yarn
+npm install
+forge build
+source .env
 ```
 
-### Format
+## Set up .env file
 
-```shell
-$ forge fmt
+Rename `.env.example` file in the root project folder to `.env` and add the credentials accordingly.
+
+## Run the Foundry scripts
+
+1. Verify network data -
+
+```sh
+forge script ./script/VerifyDataExample.s.sol:VerifyNetworkInferenceDataExample --rpc-url $rpcUrl --broadcast --skip-simulation -vvvv
 ```
 
-### Gas Snapshots
+2. Retrieve the topic value -
 
-```shell
-$ forge snapshot
+```sh
+forge script ./script/RetrieveTopicValue.s.sol:RetrieveTopicValue --rpc-url $rpcUrl --broadcast --skip-simulation -vvvv
 ```
 
-### Anvil
+## Run the Typescript scripts
 
-```shell
-$ anvil
+1. Verify network data -
+
+```sh
+ts-node script/verifyDataExample.ts
 ```
 
-### Deploy
+2. Retrieve the topic value -
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+```sh
+ts-node script/retrieveTopicValue.ts
 ```
 
-### Cast
+**NOTE:** The scripts are using the already deployed consumer contract on Neon EVM Devnet with address [`0xB8D2EaB5961084a95B901131b55051425e614581`](https://neon-devnet.blockscout.com/address/0xB8D2EaB5961084a95B901131b55051425e614581?tab=index)
 
-```shell
-$ cast <subcommand>
+## Get the offchain topic inference from the API
+
+1. Get the API Key [here](https://developer.allora.network/)
+
+2. Query the already existing inference data from chain's API endpoint. For example -
+
+```sh
+curl -X 'GET' \
+  --url 'https://api.allora.network/v2/allora/consumer/<chainId>?allora_topic_id=<topicId>' \
+  -H 'accept: application/json' \
+  -H 'x-api-key: <apiKey>'
 ```
 
-### Help
-
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+3. Replace the inference data fields in the script with the new data from the previous step.

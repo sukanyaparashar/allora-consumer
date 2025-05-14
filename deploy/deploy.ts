@@ -10,7 +10,7 @@ const contractInfoMap = {
   },
 };
 
-const ADMIN = "0x9CE2A03A7a258fB96d04Afb8Dd84b69A748B5959";
+const ADMIN = "0x9CE2A03A7a258fB96d04Afb8Dd84b69A748B5959"; // Replace it with the required admin wallet address
 
 const deploy = async () => {
   const deployer = new Deployer(contractInfoMap);
