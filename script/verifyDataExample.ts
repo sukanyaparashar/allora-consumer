@@ -129,8 +129,6 @@ const run = async () => {
   const provider = new ethers.JsonRpcProvider(rpcUrl);
 
   const signerWallet = new ethers.Wallet(signerPrivateKey, provider);
-
-  console.log({ privateKey: signerPrivateKey });
   console.log({ walletAddress: signerWallet.address });
 
   const alloraConsumer = new AlloraConsumer__factory()
@@ -180,18 +178,23 @@ const run = async () => {
     throw new Error("local signature does not match. Check chainId.");
   }
 
-  const tx = await alloraConsumer.verifyNetworkInference({
+  // Add the data provider
+  const tx = await alloraConsumer.addDataProvider(signerWallet.address);
+  console.info("Adding data provide tx hash:", tx.hash);
+  console.info("Awaiting tx confirmation...");
+  const result = await tx.wait();
+  console.info("tx receipt:", result);
+
+  // Verify network inference
+  const tx1 = await alloraConsumer.verifyNetworkInference({
     signature: signature,
     networkInference: networkInferenceData,
     extraData: ethers.toUtf8Bytes(""),
   });
-
-  console.info("tx hash:", tx.hash);
+  console.info("Verifying inference data tx hash:", tx1.hash);
   console.info("Awaiting tx confirmation...");
-
-  const result = await tx.wait();
-
-  console.info("tx receipt:", result);
+  const result1 = await tx1.wait();
+  console.info("tx receipt:", result1);
 };
 
 const getEnvVariable = (name: string) => {

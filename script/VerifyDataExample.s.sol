@@ -54,6 +54,8 @@ contract VerifyNetworkInferenceDataExample is Script {
             ECDSA.toEthSignedMessageHash(message)
         );
 
+        alloraConsumer.addDataProvider(scriptRunner);
+
         alloraConsumer.verifyNetworkInference(AlloraConsumerNetworkInferenceData({
             signature: abi.encodePacked(r, s, v),
             networkInference: networkInferenceData,
