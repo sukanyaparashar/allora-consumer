@@ -7,7 +7,7 @@ import { IAlloraConsumer, TopicValue, AlloraConsumerNetworkInferenceData } from 
 import { Ownable2Step } from "../lib/openzeppelin-contracts/contracts/access/Ownable2Step.sol";
 import { EnumerableSet } from "../lib/openzeppelin-contracts/contracts/utils/structs/EnumerableSet.sol";
 
-// forge script ./script/RetrieveTopicValue.s.sol:RetrieveTopicValue --rpc-url <rpc url> --etherscan-api-key <etherscan api key> --broadcast --verify -vvvv
+// forge script ./script/RetrieveTopicValue.s.sol:RetrieveTopicValue --rpc-url $rpcUrl --broadcast --skip-simulation -vvvv
 
 /**
  * @title RetrieveTopicValue
@@ -16,11 +16,11 @@ import { EnumerableSet } from "../lib/openzeppelin-contracts/contracts/utils/str
 contract RetrieveTopicValue is Script {
 
     // Sepolia consumer Address
-    IAlloraConsumer constant ALLORA_CONSUMER = IAlloraConsumer(0x238D0abD53fC68fAfa0CCD860446e381b400b5Be);
+    IAlloraConsumer constant ALLORA_CONSUMER = IAlloraConsumer(0xB8D2EaB5961084a95B901131b55051425e614581);
     uint256 constant TOPIC_ID = 1;
 
     function run() public virtual {
-        uint256 scriptRunnerPrivateKey = vm.envUint('SCRIPT_RUNNER_PRIVATE_KEY');
+        uint256 scriptRunnerPrivateKey = vm.envUint('privateKey');
 
         vm.startBroadcast(scriptRunnerPrivateKey);
         console.log('Broadcast started by %s', vm.addr(scriptRunnerPrivateKey));

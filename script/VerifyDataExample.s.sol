@@ -13,14 +13,14 @@ import {
 import { ECDSA } from '../lib/openzeppelin-contracts/contracts/utils/cryptography/ECDSA.sol';
 
 // run with 
-// forge script ./script/VerifyNetworkInferenceDataExample.s.sol:VerifyNetworkInferenceDataExample --rpc-url <rpc url> --etherscan-api-key <etherscan api key> --broadcast --verify -vvvv
+// forge script ./script/VerifyDataExample.s.sol:VerifyNetworkInferenceDataExample --rpc-url $rpcUrl --broadcast --skip-simulation -vvvv
 
 contract VerifyNetworkInferenceDataExample is Script {
 
-    AlloraConsumer alloraConsumer = AlloraConsumer(0x238D0abD53fC68fAfa0CCD860446e381b400b5Be);
+    AlloraConsumer alloraConsumer = AlloraConsumer(0xB8D2EaB5961084a95B901131b55051425e614581);
 
     function run() public virtual {
-        uint256 scriptRunnerPrivateKey = vm.envUint('SCRIPT_RUNNER_PRIVATE_KEY');
+        uint256 scriptRunnerPrivateKey = vm.envUint('privateKey');
         address scriptRunner = vm.addr(scriptRunnerPrivateKey);
 
         vm.startBroadcast(scriptRunnerPrivateKey);
